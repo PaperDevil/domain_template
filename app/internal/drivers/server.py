@@ -1,3 +1,4 @@
+from loguru import logger
 from fastapi import FastAPI
 from fastapi.routing import APIRouter
 
@@ -10,11 +11,16 @@ class ServerDriver:
     def create_app(
             debug: bool = True,
             routers: list[APIRouter] = None,
-            database_url: str = None
+            database_url: str = None,
+            log=None
     ) -> FastAPI:
         app = FastAPI(
             debug=debug
         )
+        if log:
+            app.logger = log
+        else:
+            app.logger = logger
 
         @app.on_event('startup')
         async def init():
