@@ -2,7 +2,7 @@ from loguru import logger
 from fastapi import FastAPI
 from fastapi.routing import APIRouter
 
-from app.internal.drivers.database import AsyncDB
+from app.internal.drivers.database import AsyncPg
 
 
 class ServerDriver:
@@ -23,15 +23,14 @@ class ServerDriver:
             app.logger = logger
 
         @app.on_event('startup')
-        async def init():
-            if database_url:
-                AsyncDB.setup_database(database_url)
-                await AsyncDB.start_connection()
+        async def init_primary_db():
+            app.state.database = await AsyncPg.init_primary_db()
+            # await CacheDriver.init_redis_connection(REDIS_HOST, REDIS_PORT, REDIS_PASSWORD)
 
         @app.on_event('shutdown')
-        async def close():
-            if database_url:
-                await AsyncDB.close_connection()
+        async def close_primary_db():
+            await AsyncPg.close_primary_pool_db()
+            # await CacheDriver.close_redis_connection()
 
         if routers:
             for router in routers:

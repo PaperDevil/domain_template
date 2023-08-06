@@ -1,6 +1,6 @@
 from app.internal.web.http.exceptions import PersonExceptions
 from app.schema.models import Person
-from app.internal.logic.repos.person import PersonRepository
+from app.internal.logic.repos.person import PersonRepository, PersonFakeRepository
 from app.internal.logic.services.base import Service
 
 
