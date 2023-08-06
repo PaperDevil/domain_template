@@ -8,7 +8,7 @@ from app.external.utils.config import ConfigUtils
 class DatabaseConfig:
     engine: str = ConfigUtils.env('DB_ENGINE', str, default='postgresql')
     user: str = ConfigUtils.env('DB_USER', str, default='postgres')
-    password: str = ConfigUtils.env('DB_PASSWORD', str, default='postgres')
+    password: str = ConfigUtils.env('DB_PASSWORD', str, default='mypgpass')
     host: str = ConfigUtils.env('DB_HOST', str, default='localhost')
     port: str = ConfigUtils.env('DB_PORT', str, default=5432)
     database: str = ConfigUtils.env('DB_NAME', str, default='postgres')
